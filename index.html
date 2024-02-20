@@ -16,7 +16,7 @@
         flex-direction: column;
 	background-image: url('https://i.imgur.com/hGMxJZp.png'); /* Replace 'background.jpg' with your image file */
         background-size: cover; /* This will make sure the background image covers the entire screen */
-	color: magenta; /* Set font color to white */
+	color: #ffb703; /* Set font color to white */
     }
     #timer {
         font-size: 120px;
@@ -35,11 +35,14 @@
     }
     #history {
         text-align: center;
+	color: #ffb703; /* Set font color to white using hex code */
     }
     button {
         margin-right: 10px;
 	font-size: 24px; /* Increase the font size of the buttons */
         padding: 8px 15px; /* Increase padding to increase the button size */
+	color: #219ebc; /* Set font color to black using hex code */
+        background-color: #fff; /* Set background color to white using hex code */
     }
 </style>
 </head>
@@ -59,7 +62,7 @@
 <script>
 let interval;
 let timerRunning = false;
-let timerValue = 350; // 5 minutes in seconds
+let timerValue = 300; // 5 minutes in seconds
 const timerDisplay = document.getElementById('timer');
 const historyDisplay = document.getElementById('history');
 
