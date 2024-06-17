@@ -1,134 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Timer Gema Takbir</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<style>
-    body {
-        font-family: 'Lato', sans-serif;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        flex-direction: column;
-	background-image: url('timer2.png'); /* Replace 'background.jpg' with your image file */
-        background-size: cover; /* This will make sure the background image covers the entire screen */
-	color: #000000; /* Set font color to white */
-    }
-    #timer {
-        font-size: 120px;
-        margin-bottom: 20px;
-    }
-    .blink {
-        animation: blinker 1s linear infinite;
-    }
-    @keyframes blinker {
-        50% {
-            opacity: 0;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5 Minute Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            height: 100vh;
+            position: relative;
         }
-    }
-    #buttons {
-        margin-bottom: 20px;
-    }
-    #history {
-        text-align: center;
-	color: #fb8500; /* Set font color to white using hex code */
-    }
-	button {
-        margin-right: 10px;
-	font-size: 24px; /* Increase the font size of the buttons */
-        padding: 8px 15px; /* Increase padding to increase the button size */
-	color: #219ebc; /* Set font color to black using hex code */
-        background-color: #8ecae6; /* Set background color to white using hex code */
-	}
-</style>
+        #timer {
+            font-size: 48px;
+            position: absolute;
+            top: 50px;
+            left: 50px;
+        }
+        .buttons {
+            position: absolute;
+            top: 150px;
+            left: 50px;
+           
+        }
+        .buttons button {
+            font-size: 18px;
+            margin: 5px;
+            padding: 10px 20px;
+        }
+        #history {
+            position: absolute;
+            bottom: 20px;
+            left: 550px;
+            font-size: 18px;
+        }
+        #history h2 {
+            margin: 0;
+        }
+        
+        #historyList {
+            list-style-type: none;
+            padding: 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        #historyList li {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-
-<div id="timer" class="blink">00:05:00</div>
-<div id="buttons" style="margin-top:12px;">
+    <div id="timer">05:00</div>
+    <div class="buttons">
+        <button onclick="startTimer()">Start</button>
+        <button onclick="stopTimer()">Stop</button>
+        <button onclick="resetTimer()">Reset</button>
+        <button id="bg-button" onclick="nextBackground()">Next</button>
+    </div>
     
-    <button onclick="startTimer()" style="background-color: #4CAF50; color: white; padding: 10px 20px; font-size: 24px; border: none; cursor: pointer; border-radius: 15px;">Start</button>
-    <button onclick="stopTimer()" style="background-color: #c1121f; color: #fdf0d5; padding: 10px 20px; font-size: 24px; border: none; cursor: pointer; border-radius: 2px;">Stop</button>
-    <button onclick="resetTimer()" style="background-color: #669bbc; color: #fdf0d5; padding: 10px 20px; font-size: 24px; border: none; cursor: pointer; border-radius: 5px;">Reset</button>
-    <button onclick="clearHistory()" style="background-color: #669bbc; color: #fdf0d5; padding: 10px 20px; font-size: 24px; border: none; cursor: pointer; border-radius: 5px;">Clear</button>
-    
-</div>
-<div id="history"></div>
+ 
+    <div id="history">
+        <h2>History</h2>
+        <ul id="historyList"></ul>
+    </div>
 
-<script>
-let interval;
-let timerRunning = false;
-let timerValue = 300; // 5 minutes in seconds
-const timerDisplay = document.getElementById('timer');
-const historyDisplay = document.getElementById('history');
+    <script>
+        let timerInterval;
+        let timeRemaining = 60;
+        let isRunning = false;
+		let bgImages = [
+            'url("https://images.pexels.com/photos/5987212/pexels-photo-5987212.jpeg")',
+            'url("https://images.pexels.com/photos/1276429/pexels-photo-1276429.jpeg")',
+            'url("https://images.pexels.com/photos/590663/pexels-photo-590663.jpeg")'
+        ];
+        let currentBgIndex = 0;
 
-function startTimer() {
-    if (!timerRunning) {
-        interval = setInterval(updateTimer, 1000);
-        timerRunning = true;
-    }
-}
+        document.body.style.backgroundImage = bgImages[currentBgIndex];
 
-function stopTimer() {
-    clearInterval(interval);
-    timerRunning = false;
-    saveHistory(timerValue);
-}
-
-function resetTimer() {
-    clearInterval(interval);
-    timerRunning = false;
-    timerValue = 300;
-    updateTimerDisplay();
-}
-
-function updateTimer() {
-    if (timerValue > 0) {
-        timerValue--;
-        updateTimerDisplay();
-        if (timerValue <= 30) {
-            timerDisplay.classList.add('blink');
-        } else {
-            timerDisplay.classList.remove('blink');
+        function nextBackground() {
+            currentBgIndex = (currentBgIndex + 1) % bgImages.length;
+            document.body.style.backgroundImage = bgImages[currentBgIndex];
         }
-    } else {
-        clearInterval(interval);
-        timerRunning = false;
-        saveHistory(0);
-    }
-}
+        function startTimer() {
+            if (isRunning) return;
+            isRunning = true;
+            timerInterval = setInterval(() => {
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    logHistory('Timer Ended');
+                    isRunning = false;
+                    return;
+                }
+                timeRemaining--;
+                updateTimerDisplay();
+            }, 1000);
+        }
 
-function updateTimerDisplay() {
-    const hours = Math.floor(timerValue / 3600);
-    const minutes = Math.floor((timerValue % 3600) / 60);
-    const seconds = timerValue % 60;
-    timerDisplay.textContent = `${padZero(hours)}:${padZero(minutes)}:${padZero(seconds)}`;
-}
+        function stopTimer() {
+            if (!isRunning) return;
+            clearInterval(timerInterval);
+            isRunning = false;
+            logHistory('Time  ' + formatTime(timeRemaining));
+        }
 
-function padZero(num) {
-    return (num < 10) ? `0${num}` : num;
-}
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            timeRemaining = 60;
+            updateTimerDisplay();
+            
+        }
 
-function saveHistory(time) {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    const historyItem = document.createElement('div');
-    historyItem.textContent = `${getHistoryNumber()}. Stopped at: ${padZero(minutes)}:${padZero(seconds)}`;
-    historyDisplay.appendChild(historyItem);
-}
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            document.getElementById('timer').textContent = 
+                (minutes < 10 ? '0' : '') + minutes + ':' + 
+                (seconds < 10 ? '0' : '') + seconds;
+        }
 
-function clearHistory() {
-    historyDisplay.innerHTML = "";
-}
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return (minutes < 10 ? '0' : '') + minutes + ':' + 
+                   (remainingSeconds < 10 ? '0' : '') + remainingSeconds;
+        }
 
-function getHistoryNumber() {
-    return historyDisplay.childElementCount + 1;
-}
-</script>
-
+        function logHistory(action) {
+            const historyList = document.getElementById('historyList');
+            const listItem = document.createElement('li');
+            listItem.textContent = action;
+            historyList.appendChild(listItem);
+        }
+    </script>
 </body>
 </html>
