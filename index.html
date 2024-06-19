@@ -77,8 +77,8 @@
         let timeRemaining = 60;
         let isRunning = false;
 		let bgImages = [
-            'url("bg-1.png")',
-            'url("bg-2.png")',
+           		'url("bg-1.png")',
+            		'url("bg-2.png")',
 			'url("bg-3.png")',
 			'url("bg-4.png")',
 			'url("bg-5.png")',
@@ -175,6 +175,26 @@
 
             XLSX.writeFile(wb, "history.xlsx");
         }
+	    // Add event listener for keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            switch (event.key.toLowerCase()) {
+                case 's':
+                    startTimer();
+                    break;
+                case 't':
+                    stopTimer();
+                    break;
+                case 'r':
+                    resetTimer();
+                    break;
+                case 'n':
+                    nextBackground();
+                    break;
+                case 'h':
+                    saveHistory();
+                    break;
+            }	
+			});
     </script>
 </body>
 </html>
