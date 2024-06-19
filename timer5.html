@@ -175,6 +175,26 @@
 
             XLSX.writeFile(wb, "history.xlsx");
         }
+	    // Add event listener for keyboard shortcuts
+        document.addEventListener('keydown', function(event) {
+            switch (event.key.toLowerCase()) {
+                case 's':
+                    startTimer();
+                    break;
+                case 't':
+                    stopTimer();
+                    break;
+                case 'r':
+                    resetTimer();
+                    break;
+                case 'n':
+                    nextBackground();
+                    break;
+                case 'h':
+                    saveHistory();
+                    break;
+            }	
+			});
     </script>
 </body>
 </html>
