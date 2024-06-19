@@ -60,8 +60,9 @@
     <div class="buttons">
         <button onclick="startTimer()">Start</button>
         <button onclick="stopTimer()">Stop</button>
-        <button onclick="resetTimer()">Reset</button>
-        <button id="bg-button" onclick="nextBackground()">Next</button>
+        <button onclick="resetTimer()">1 menit</button>
+        <button onclick="reset4()">4 menit</button>
+	<button id="bg-button" onclick="nex tBackground()">Next</button>
 	<button onclick="saveHistory()">Save</button>
     </div>
     
@@ -139,6 +140,12 @@
             updateTimerDisplay();
             
         }
+	function reset4(){
+	    clearInterval(timerInterval);
+            isRunning = false;
+            timeRemaining = 300;
+            updateTimerDisplay();
+	}
 
         function updateTimerDisplay() {
             const minutes = Math.floor(timeRemaining / 60);
