@@ -113,18 +113,18 @@
         }
         function startTimer() {
             if (isRunning) return;
-            isRunning = true;
-            timerInterval = setInterval(() => {
-                if (timeRemaining <= 0) {
-                    clearInterval(timerInterval);
-                    logHistory('Timer Ended');
-                    isRunning = false;
-                    return;
-                }
-                timeRemaining--;
-                updateTimerDisplay();
-            }, 1000);
+    isRunning = true;
+    timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+
+        if (timeRemaining === 0) {
+            logHistory('Timer Ended');
+        } else if (timeRemaining === -1) {
+            logHistory('Overtime Started');
         }
+        }
+				}
 
         function stopTimer() {
             if (!isRunning) return;
@@ -147,13 +147,27 @@
             updateTimerDisplay();
 	}
 
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timeRemaining / 60);
-            const seconds = timeRemaining % 60;
-            document.getElementById('timer').textContent = 
-                (minutes < 10 ? '0' : '') + minutes + ':' + 
-                (seconds < 10 ? '0' : '') + seconds;
+        //function updateTimerDisplay() {
+           // const minutes = Math.floor(timeRemaining / 60);
+          //  const seconds = timeRemaining % 60;
+          //  document.getElementById('timer').textContent = 
+          //      (minutes < 10 ? '0' : '') + minutes + ':' + 
+           //     (seconds < 10 ? '0' : '') + seconds;
+	    function updateTimerDisplay() {
+    const absTime = Math.abs(timeRemaining);
+    const minutes = Math.floor(absTime / 60);
+    const seconds = absTime % 60;
+    const sign = timeRemaining < 0 ? '-' : '';
+
+    document.getElementById('timer').textContent =
+        sign +
+        (minutes < 10 ? '0' : '') + minutes + ':' +
+        (seconds < 10 ? '0' : '') + seconds;
+
+    // Optional: change color to red in overtime
+    document.getElementById('timer').style.color = timeRemaining < 0 ? 'red' : 'black';
         }
+         
 
         function formatTime(seconds) {
             const minutes = Math.floor(seconds / 60);
