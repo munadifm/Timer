@@ -126,10 +126,12 @@
         }
 
         function stopTimer() {
-            if (!isRunning) return;
-            clearInterval(timerInterval);
-            isRunning = false;
-            logHistory('Time  ' + formatTime(timeRemaining));
+          if (!isRunning) return;
+  	  clearInterval(timerInterval);
+   	 isRunning = false;
+
+    	const currentDisplay = document.getElementById('timer').textContent;
+   	 logHistory('Time ' + currentDisplay);
         }
 
         function resetTimer() {
@@ -152,20 +154,20 @@
           //  document.getElementById('timer').textContent = 
           //      (minutes < 10 ? '0' : '') + minutes + ':' + 
            //     (seconds < 10 ? '0' : '') + seconds;
- function updateTimerDisplay() {
-    const absTime = Math.abs(timeRemaining);
-    const minutes = Math.floor(absTime / 60);
-    const seconds = absTime % 60;
-    const sign = timeRemaining < 0 ? '-' : '';
+	 function updateTimerDisplay() {
+    		const absTime = Math.abs(timeRemaining);
+    		const minutes = Math.floor(absTime / 60);
+   		 const seconds = absTime % 60;
+    		const sign = timeRemaining < 0 ? '-' : '';
 
-    document.getElementById('timer').textContent =
-        sign +
-        (minutes < 10 ? '0' : '') + minutes + ':' +
-        (seconds < 10 ? '0' : '') + seconds;
+  		  document.getElementById('timer').textContent =
+       		 sign +
+       		 (minutes < 10 ? '0' : '') + minutes + ':' +
+       		 (seconds < 10 ? '0' : '') + seconds;
 
     // Optional: change color to red in overtime
-    document.getElementById('timer').style.color = timeRemaining < 0 ? 'red' : 'black';
-        }
+   		 document.getElementById('timer').style.color = timeRemaining < 0 ? 'red' : 'black';
+       			 }
          
 
         function formatTime(seconds) {
