@@ -113,18 +113,17 @@
         }
         function startTimer() {
             if (isRunning) return;
-    isRunning = true;
-    timerInterval = setInterval(() => {
-        timeRemaining--;
-        updateTimerDisplay();
-
+   		 isRunning = true;
+   		 timerInterval = setInterval(() => {
+       		 timeRemaining--;
+    	  		updateTimerDisplay();
         if (timeRemaining === 0) {
             logHistory('Timer Ended');
         } else if (timeRemaining === -1) {
             logHistory('Overtime Started');
         }
+    }, 1000);
         }
-				}
 
         function stopTimer() {
             if (!isRunning) return;
@@ -153,7 +152,7 @@
           //  document.getElementById('timer').textContent = 
           //      (minutes < 10 ? '0' : '') + minutes + ':' + 
            //     (seconds < 10 ? '0' : '') + seconds;
-	    function updateTimerDisplay() {
+ function updateTimerDisplay() {
     const absTime = Math.abs(timeRemaining);
     const minutes = Math.floor(absTime / 60);
     const seconds = absTime % 60;
